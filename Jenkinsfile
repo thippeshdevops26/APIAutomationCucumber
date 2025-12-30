@@ -1,5 +1,6 @@
 pipeline {
-    agent any	
+    agent any
+	
     stages {
         stage('Checkout') {
             steps {
@@ -13,6 +14,7 @@ pipeline {
             }
         }
     }	
+	
     post {
         always {
             publishHTML(target: [
