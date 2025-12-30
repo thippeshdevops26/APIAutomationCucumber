@@ -1,6 +1,5 @@
 pipeline {
-    agent any
-	
+    agent any	
     stages {
         stage('Checkout') {
             steps {
@@ -13,8 +12,7 @@ pipeline {
                 bat 'mvn clean test'
             }
         }
-    }
-	
+    }	
     post {
         always {
             publishHTML(target: [
