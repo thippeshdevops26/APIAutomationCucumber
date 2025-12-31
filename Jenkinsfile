@@ -1,21 +1,18 @@
 pipeline {
     agent any
 	
-    stages {
-	
+    stages {	
         stage('Checkout') {
             steps {
                 checkout scm
             }
-        }
-		
+        }		
         stage('Build & Test') {
             steps {
                 bat 'mvn clean test'
             }
         }
-    }
-	
+    }	
     post {
         always {
             publishHTML(target: [
