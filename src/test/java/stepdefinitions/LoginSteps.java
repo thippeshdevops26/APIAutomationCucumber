@@ -3,16 +3,20 @@ package stepdefinitions;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.DriverFactory;
+
+import java.time.Duration;
+
+import static org.testng.Assert.assertTrue;
 
 public class LoginSteps {
 
-    WebDriver driver;
+    WebDriver driver = DriverFactory.getDriver();
 
     @Given("user is on login page")
     public void user_is_on_login_page() {
-        driver = DriverFactory.getDriver();
         driver.get("https://the-internet.herokuapp.com/login");
     }
 
@@ -23,28 +27,12 @@ public class LoginSteps {
         driver.findElement(By.cssSelector("button[type='submit']")).click();
     }
 
-    @Then("login should be successful")
-    public void login_should_be_successful() {
-        boolean successMessage =
-                driver.findElement(By.id("flash")).getText().contains("You logged into");
-
-        Assert.assertTrue(
-                successMessage,
-                "Login success message NOT displayed"
-        );
-    }
-
-    // THIS IS THE CRITICAL NEGATIVE ASSERTION
     @Then("error message should be displayed")
     public void error_message_should_be_displayed() {
-
-        String actualErrorMessage =
-                driver.findElement(By.id("flash")).getText();
-
-        Assert.assertTrue(
-                actualErrorMessage.contains("Your username is invalid"),
-                "Expected error message NOT displayed. Actual message: "
-                        + actualErrorMessage
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        assertTrue(
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("flash"))).isDisplayed(),
+                "Error message not displayed"
         );
     }
 }

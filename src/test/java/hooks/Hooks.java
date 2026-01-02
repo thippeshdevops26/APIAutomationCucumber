@@ -9,6 +9,7 @@ public class Hooks {
     @Before
     public void setUp() {
         DriverFactory.initDriver();
+        DriverFactory.getDriver().manage().window().maximize();
     }
 
     @After
