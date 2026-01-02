@@ -1,12 +1,8 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
 <suite name="UI Automation Suite" parallel="tests" thread-count="2">
 
-    <listeners>
-        <listener class-name="listeners.TestListener"/>
-    </listeners>
-
-    <test name="Login Tests">
+    <test name="Login Feature">
         <classes>
             <class name="runner.TestRunner"/>
         </classes>

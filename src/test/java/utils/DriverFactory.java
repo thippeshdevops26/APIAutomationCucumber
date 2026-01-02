@@ -8,9 +8,7 @@ public class DriverFactory {
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static void initDriver() {
-        if (driver.get() == null) {
-            driver.set(new ChromeDriver());
-        }
+        driver.set(new ChromeDriver());
     }
 
     public static WebDriver getDriver() {
