@@ -14,24 +14,25 @@ pipeline {
         }
     }
     post {
-
-        emailext(
-			subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-			body: """
-			<html>
-			<body>
-			<h2 style="color:green;">Build Successful</h2>
-			<p><b>Job:</b> ${env.JOB_NAME}</p>
-			<p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-			<p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-			</body>
-			</html>
-			""",
-			to: "thippeshdevops26@gmail.com",
-			from: "thippeshdevops26@gmail.com",
-			replyTo: "thippeshdevops26@gmail.com",
-			mimeType: "text/html"
-		)
+		success {
+			emailext(
+				subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+				body: """
+				<html>
+				<body>
+				<h2 style="color:green;">Build Successful</h2>
+				<p><b>Job:</b> ${env.JOB_NAME}</p>
+				<p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+				<p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+				</body>
+				</html>
+				""",
+				to: "thippeshdevops26@gmail.com",
+				from: "thippeshdevops26@gmail.com",
+				replyTo: "thippeshdevops26@gmail.com",
+				mimeType: "text/html"
+			)
+		}
 
 
         failure {
