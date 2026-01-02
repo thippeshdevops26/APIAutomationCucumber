@@ -24,8 +24,8 @@ public class LoginSteps {
 
     @When("user logs in with invalid credentials")
     public void user_logs_in_with_invalid_credentials() {
-        driver.findElement(By.id("username")).sendKeys("wronguser");
-        driver.findElement(By.id("password")).sendKeys("wrongpass");
+        driver.findElement(By.id("username")).sendKeys("invalid");
+        driver.findElement(By.id("password")).sendKeys("invalid");
         driver.findElement(By.cssSelector("button[type='submit']")).click();
     }
 
@@ -34,7 +34,7 @@ public class LoginSteps {
         String pageSource = driver.getPageSource();
         Assert.assertTrue(
                 pageSource.contains("You logged into a secure area!"),
-                "Expected success message not found"
+                "Success message not found"
         );
     }
 
@@ -42,19 +42,16 @@ public class LoginSteps {
     public void error_message_should_be_shown() {
         String pageSource = driver.getPageSource();
 
-        // INTENTIONAL FAILURE (to test screenshot + Jenkins failure flow)
         Assert.assertTrue(
-                pageSource.contains("THIS_MESSAGE_DOES_NOT_EXIST"),
-                "Expected error message not found"
+                pageSource.contains("Your username is invalid!"),
+                "Expected error message not displayed"
         );
     }
 
     @Then("logout button should be visible")
     public void logout_button_should_be_visible() {
-
-        // INTENTIONAL FAILURE
         Assert.assertTrue(
-                driver.findElements(By.id("logout")).size() > 0,
+                driver.findElements(By.cssSelector("a[href='/logout']")).size() > 0,
                 "Logout button not visible"
         );
     }
