@@ -38,13 +38,13 @@ public class LoginSteps {
     @Then("error message should be displayed")
     public void error_message_should_be_displayed() {
 
-        boolean errorDisplayed =
-                driver.findElement(By.id("flash")).isDisplayed();
+        String actualErrorMessage =
+                driver.findElement(By.id("flash")).getText();
 
-        //THIS ASSERTION MAKES THE TEST FAIL
         Assert.assertTrue(
-                errorDisplayed,
-                "ERROR MESSAGE NOT DISPLAYED FOR INVALID LOGIN"
+                actualErrorMessage.contains("Your username is invalid"),
+                "Expected error message NOT displayed. Actual message: "
+                        + actualErrorMessage
         );
     }
 }

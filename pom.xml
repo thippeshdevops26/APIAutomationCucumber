@@ -13,7 +13,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-
         <selenium.version>4.20.0</selenium.version>
         <cucumber.version>7.15.0</cucumber.version>
         <testng.version>7.9.0</testng.version>
@@ -21,7 +20,7 @@
 
     <dependencies>
 
-        <!-- ✅ Selenium (includes DevTools internally) -->
+        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -49,7 +48,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Logger (removes SLF4J warnings) -->
+        <!-- Logger -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -62,26 +61,25 @@
     <build>
         <plugins>
 
-            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <encoding>UTF-8</encoding>
                     <source>17</source>
                     <target>17</target>
                 </configuration>
             </plugin>
 
-            <!-- Surefire (TestNG + parallel) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>
+                            src/test/resources/testng.xml
+                        </suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
