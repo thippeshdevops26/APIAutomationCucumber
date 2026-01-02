@@ -9,11 +9,11 @@
     <artifactId>ReqresAPIAutomation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- 🔒 Encoding & Java safety -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+
         <selenium.version>4.20.0</selenium.version>
         <cucumber.version>7.15.0</cucumber.version>
         <testng.version>7.9.0</testng.version>
@@ -21,17 +21,10 @@
 
     <dependencies>
 
-        <!-- Selenium -->
+        <!-- ✅ Selenium (includes DevTools internally) -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <!-- Selenium DevTools (CDP warning fix) -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-devtools-v141</artifactId>
             <version>${selenium.version}</version>
         </dependency>
 
@@ -56,7 +49,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- SLF4J (logger warning fix) -->
+        <!-- Logger (removes SLF4J warnings) -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -69,7 +62,7 @@
     <build>
         <plugins>
 
-            <!-- Compiler plugin (encoding + Java version fix) -->
+            <!-- Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -81,7 +74,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Surefire (TestNG + parallel safe) -->
+            <!-- Surefire (TestNG + parallel) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
