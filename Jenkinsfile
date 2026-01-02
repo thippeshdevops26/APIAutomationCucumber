@@ -1,67 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
+        stage('Mail Test') {
             steps {
-                checkout scm
+                mail(
+                    to: 'thippeshdevops26@gmail.com',
+                    subject: 'JENKINS MAIL TEST',
+                    body: 'If you receive this mail, SMTP is working.'
+                )
             }
-        }
-
-        stage('Build & Test') {
-            steps {
-                bat 'mvn clean test'
-            }
-        }
-    }
-    post {
-		success {
-			emailext(
-				subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-				body: """
-				<html>
-				<body>
-				<h2 style="color:green;">Build Successful</h2>
-				<p><b>Job:</b> ${env.JOB_NAME}</p>
-				<p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-				<p><b>Build URL:</b> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-				</body>
-				</html>
-				""",
-				to: "thippeshdevops26@gmail.com",
-				from: "thippeshdevops26@gmail.com",
-				replyTo: "thippeshdevops26@gmail.com",
-				mimeType: "text/html"
-			)
-		}
-
-
-        failure {
-            emailext(
-                subject: "BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                <html>
-                <body>
-                <h2 style="color:red;">Build Failed</h2>
-                <p><b>Job:</b> ${env.JOB_NAME}</p>
-                <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
-                <p><b>Build URL:</b>
-                <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                <p>Please find the failure screenshots attached.</p>
-                </body>
-                </html>
-                """,
-                to: "thippesh.kumar@gmail.com",
-                attachmentsPattern: 'target/screenshots/*.png',
-                mimeType: 'text/html'
-            )
-        }
-
-        always {
-            publishHTML(target: [
-                reportDir: 'target',
-                reportFiles: 'cucumber-report.html',
-                reportName: 'Cucumber Test Report'
-            ])
         }
     }
 }
