@@ -1,26 +1,18 @@
 package hooks;
 
-import io.cucumber.java.*;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import utils.DriverFactory;
-import utils.ScreenshotUtil;
 
 public class Hooks {
 
-    @Before("@ui")
-    public void startBrowser() {
+    @Before
+    public void setUp() {
         DriverFactory.initDriver();
     }
 
-    @After("@ui")
-    public void tearDown(Scenario scenario) {
-
-        if (scenario.isFailed()) {
-            ScreenshotUtil.takeScreenshot(
-                    DriverFactory.getDriver(),
-                    scenario.getName().replace(" ", "_")
-            );
-        }
-
+    @After
+    public void tearDown() {
         DriverFactory.quitDriver();
     }
 }

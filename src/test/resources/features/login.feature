@@ -1,12 +1,11 @@
-@ui
-Feature: Login feature
+Feature: Login functionality
 
-  Scenario: Valid login (PASS)
-    Given user opens login page
-    When user logs in with valid credentials
-    Then user should see success message
+  Scenario: Login with valid credentials
+    Given user is on login page
+    When user logs in with username "tomsmith" and password "SuperSecretPassword!"
+    Then login should be successful
 
-  Scenario: Invalid login (FAIL)
-    Given user opens login page
-    When user logs in with invalid credentials
-    Then error message should be shown
+  Scenario: Login with invalid credentials
+    Given user is on login page
+    When user logs in with username "wronguser" and password "wrongpass"
+    Then error message should be displayed

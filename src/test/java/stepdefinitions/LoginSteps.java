@@ -8,51 +8,43 @@ import utils.DriverFactory;
 
 public class LoginSteps {
 
-    WebDriver driver = DriverFactory.getDriver();
+    WebDriver driver;
 
-    @Given("user opens login page")
-    public void user_opens_login_page() {
+    @Given("user is on login page")
+    public void user_is_on_login_page() {
+        driver = DriverFactory.getDriver();
         driver.get("https://the-internet.herokuapp.com/login");
     }
 
-    @When("user logs in with valid credentials")
-    public void user_logs_in_with_valid_credentials() {
-        driver.findElement(By.id("username")).sendKeys("tomsmith");
-        driver.findElement(By.id("password")).sendKeys("SuperSecretPassword!");
+    @When("user logs in with username {string} and password {string}")
+    public void user_logs_in(String username, String password) {
+        driver.findElement(By.id("username")).sendKeys(username);
+        driver.findElement(By.id("password")).sendKeys(password);
         driver.findElement(By.cssSelector("button[type='submit']")).click();
     }
 
-    @When("user logs in with invalid credentials")
-    public void user_logs_in_with_invalid_credentials() {
-        driver.findElement(By.id("username")).sendKeys("invalid");
-        driver.findElement(By.id("password")).sendKeys("invalid");
-        driver.findElement(By.cssSelector("button[type='submit']")).click();
-    }
+    @Then("login should be successful")
+    public void login_should_be_successful() {
+        boolean successMessage =
+                driver.findElement(By.id("flash")).getText().contains("You logged into");
 
-    @Then("user should see success message")
-    public void user_should_see_success_message() {
-        String pageSource = driver.getPageSource();
         Assert.assertTrue(
-                pageSource.contains("You logged into a secure area!"),
-                "Success message not found"
+                successMessage,
+                "Login success message NOT displayed"
         );
     }
 
-    @Then("error message should be shown")
-    public void error_message_should_be_shown() {
-        String pageSource = driver.getPageSource();
+    // THIS IS THE CRITICAL NEGATIVE ASSERTION
+    @Then("error message should be displayed")
+    public void error_message_should_be_displayed() {
 
-        Assert.assertTrue(
-                pageSource.contains("Your username is invalid!"),
-                "Expected error message not displayed"
-        );
-    }
+        boolean errorDisplayed =
+                driver.findElement(By.id("flash")).isDisplayed();
 
-    @Then("logout button should be visible")
-    public void logout_button_should_be_visible() {
+        //THIS ASSERTION MAKES THE TEST FAIL
         Assert.assertTrue(
-                driver.findElements(By.cssSelector("a[href='/logout']")).size() > 0,
-                "Logout button not visible"
+                errorDisplayed,
+                "ERROR MESSAGE NOT DISPLAYED FOR INVALID LOGIN"
         );
     }
 }

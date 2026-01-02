@@ -8,9 +8,9 @@ public class DriverFactory {
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static void initDriver() {
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.manage().window().maximize();
-        driver.set(webDriver);
+        if (driver.get() == null) {
+            driver.set(new ChromeDriver());
+        }
     }
 
     public static WebDriver getDriver() {

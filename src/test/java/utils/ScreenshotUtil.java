@@ -2,21 +2,16 @@ package utils;
 
 import org.openqa.selenium.*;
 import java.io.File;
-import java.nio.file.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Files;
 
 public class ScreenshotUtil {
 
-    public static void takeScreenshot(WebDriver driver, String name) {
+    public static void takeScreenshot(WebDriver driver, String testName) {
         try {
-            Files.createDirectories(Paths.get("target/screenshots"));
-            String time = new SimpleDateFormat("HHmmss").format(new Date());
-
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            Files.copy(src.toPath(),
-                    Paths.get("target/screenshots/" + name + "_" + time + ".png"));
-
+            File dest = new File("target/screenshots/" + testName + ".png");
+            dest.getParentFile().mkdirs();
+            Files.copy(src.toPath(), dest.toPath());
         } catch (Exception e) {
             e.printStackTrace();
         }
