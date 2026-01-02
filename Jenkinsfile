@@ -29,8 +29,8 @@ pipeline {
 					Build No  : ${env.BUILD_NUMBER}
 					Build URL : ${env.BUILD_URL}
 				"""
-			)
-		}
+            )
+        }
 
         failure {
             mail(
@@ -43,12 +43,15 @@ pipeline {
 					Build No  : ${env.BUILD_NUMBER}
 					Build URL : ${env.BUILD_URL}
 
-					Screenshots are archived in Jenkins build artifacts.
+					Screenshots are available in:
+					Jenkins → Build → Artifacts → target/screenshots
 				"""
             )
         }
 
         always {
+            archiveArtifacts artifacts: 'target/screenshots/*.png', fingerprint: true
+
             publishHTML(target: [
                 reportDir: 'target',
                 reportFiles: 'cucumber-report.html',
