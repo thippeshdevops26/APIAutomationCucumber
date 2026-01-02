@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -24,12 +25,12 @@ pipeline {
                 body: """
 					BUILD SUCCESS
 
-					Job Name   : ${env.JOB_NAME}
-					Build No   : ${env.BUILD_NUMBER}
-					Build URL  : ${env.BUILD_URL}
-					"""
-								)
-        }
+					Job Name  : ${env.JOB_NAME}
+					Build No  : ${env.BUILD_NUMBER}
+					Build URL : ${env.BUILD_URL}
+				"""
+			)
+		}
 
         failure {
             mail(
@@ -38,12 +39,13 @@ pipeline {
                 body: """
 					BUILD FAILED
 
-					Job Name   : ${env.JOB_NAME}
-					Build No   : ${env.BUILD_NUMBER}
-					Build URL  : ${env.BUILD_URL}
+					Job Name  : ${env.JOB_NAME}
+					Build No  : ${env.BUILD_NUMBER}
+					Build URL : ${env.BUILD_URL}
 
-					Please check Jenkins console output and reports.
-					"""
+					Please find failure screenshots attached.
+				""",
+                attachmentsPattern: 'target/screenshots/*.png'
             )
         }
 

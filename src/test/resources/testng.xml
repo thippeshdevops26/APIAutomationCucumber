@@ -1,8 +1,17 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="API Suite">
-    <test name="Reqres Tests">
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="UI Feature Parallel Suite" parallel="tests" thread-count="2">
+
+    <test name="Login Feature">
         <classes>
-            <class name="runners.TestRunner"/>
+            <class name="runner.LoginRunner"/>
         </classes>
     </test>
+
+    <test name="Logout Feature">
+        <classes>
+            <class name="runner.LogoutRunner"/>
+        </classes>
+    </test>
+
 </suite>
