@@ -2,6 +2,11 @@ pipeline {
     agent any
 
     stages {
+        stage('Clean Workspace') {
+            steps {
+                deleteDir()
+            }
+        }
 
         stage('Checkout') {
             steps {
@@ -17,18 +22,15 @@ pipeline {
     }
 
     post {
+        always {
+            archiveArtifacts artifacts: 'target/screenshots/*.png', allowEmptyArchive: true
+        }
 
         success {
             mail(
                 to: 'thippeshdevops26@gmail.com',
                 subject: "BUILD SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-					BUILD SUCCESS
-
-					Job Name  : ${env.JOB_NAME}
-					Build No  : ${env.BUILD_NUMBER}
-					Build URL : ${env.BUILD_URL}
-				"""
+                body: "Build succeeded: ${env.BUILD_URL}"
             )
         }
 
@@ -36,27 +38,8 @@ pipeline {
             mail(
                 to: 'thippeshdevops26@gmail.com',
                 subject: "BUILD FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-					BUILD FAILED
-
-					Job Name  : ${env.JOB_NAME}
-					Build No  : ${env.BUILD_NUMBER}
-					Build URL : ${env.BUILD_URL}
-
-					Screenshots are available in:
-					Jenkins → Build → Artifacts → target/screenshots
-				"""
+                body: "Build failed. Screenshots available in Jenkins artifacts."
             )
-        }
-
-        always {
-            archiveArtifacts artifacts: 'target/screenshots/*.png', fingerprint: true
-
-            publishHTML(target: [
-                reportDir: 'target',
-                reportFiles: 'cucumber-report.html',
-                reportName: 'Cucumber Test Report'
-            ])
         }
     }
 }
