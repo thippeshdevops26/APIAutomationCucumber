@@ -43,9 +43,8 @@ pipeline {
 					Build No  : ${env.BUILD_NUMBER}
 					Build URL : ${env.BUILD_URL}
 
-					Please find failure screenshots attached.
-				""",
-                attachmentsPattern: 'target/screenshots/*.png'
+					Screenshots are archived in Jenkins build artifacts.
+				"""
             )
         }
 
