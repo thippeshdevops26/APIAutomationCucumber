@@ -1,13 +1,9 @@
 package utils;
 
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.*;
 import java.io.File;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.Path;
 
 public class ScreenshotUtil {
 
@@ -15,17 +11,16 @@ public class ScreenshotUtil {
         try {
             File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
-            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            Path destDir = Path.of("target", "screenshots");
+            Files.createDirectories(destDir);
 
-            File dest = new File(
-                "target/screenshots/" + scenarioName + "_" + timestamp + ".png"
+            Path dest = destDir.resolve(
+                    scenarioName.replaceAll("[^a-zA-Z0-9]", "_") + ".png"
             );
 
-            dest.getParentFile().mkdirs();
-            Files.copy(src.toPath(), dest.toPath());
+            Files.copy(src.toPath(), dest);
 
-            System.out.println("Screenshot saved: " + dest.getAbsolutePath());
-
+            System.out.println("📸 Screenshot saved at: " + dest.toAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }

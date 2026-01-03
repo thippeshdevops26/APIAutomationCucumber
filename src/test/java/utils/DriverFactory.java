@@ -5,13 +5,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DriverFactory {
 
-    private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-
-    public static void initDriver() {
-        driver.set(new ChromeDriver());
-    }
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
+        if (driver.get() == null) {
+            driver.set(new ChromeDriver());
+        }
         return driver.get();
     }
 
